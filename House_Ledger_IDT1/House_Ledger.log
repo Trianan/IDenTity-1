@@ -1,0 +1,52 @@
+﻿  House_Ledger.cpp
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(96,19): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(125,8): error C2079: 'Account::house' uses undefined class 'House'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(135,10): error C2027: use of undefined type 'House'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(58): message : see declaration of 'House'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(135,69): error C2027: use of undefined type 'House'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(58): message : see declaration of 'House'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(135,73): error C2439: 'Account::house': member could not be initialized
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(125): message : see declaration of 'Account::house'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(140,45): error C2572: 'Account::list_housemates': redefinition of default argument: parameter 1
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(116): message : see declaration of 'Account::list_housemates'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(142,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(149,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(156,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(163,47): error C2572: 'Account::print_stats': redefinition of default argument: parameter 1
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(118): message : see declaration of 'Account::print_stats'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(181,75): error C2572: 'Account::modify_balance': redefinition of default argument: parameter 1
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(115): message : see declaration of 'Account::modify_balance'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(183,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(207,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(241,1): error C2059: syntax error: '}'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(222,43): error C2059: syntax error: ';'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(223,1): error C2440: '=': cannot convert from 'std::string' to 'size_t'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(223,14): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(226,2): error C2059: syntax error: 'else'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(226,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(226,1): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(241,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(243,1): error C2143: syntax error: missing ';' before '{'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(243,1): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(255,1): error C2440: 'initializing': cannot convert from 'initializer list' to 'Account'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(255,1): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(299,42): error C2572: 'House::list_residents': redefinition of default argument: parameter 1
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(276): message : see declaration of 'House::list_residents'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(313,45): error C2572: 'House::print_stats': redefinition of default argument: parameter 1
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(277): message : see declaration of 'House::print_stats'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(335,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(352,17): error C2676: binary '==': 'std::string' does not define this operator or a conversion to a type acceptable to the predefined operator
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(354,24): error C2440: '=': cannot convert from 'std::string' to 'size_t'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(354,14): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(381,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(388,23): error C2660: 'House::prompt_new_resident': function does not take 0 arguments
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(291,7): message : see declaration of 'House::prompt_new_resident'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(395,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(406,32): error C2440: 'initializing': cannot convert from 'initializer list' to 'Account'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(406,32): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(423,41): error C2065: 'void_house': undeclared identifier
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(450,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(450,1): error C2146: syntax error: missing ';' before identifier 'Account'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(450,48): error C2143: syntax error: missing ';' before '{'
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(450,48): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\trist\source\repos\House-Ledger\House_Ledger\House_Ledger\House_Ledger.cpp(480,18): error C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

@@ -1,0 +1,48 @@
+
+										USER INTERFACE FOR HOUSE-LEDGER
+									  ___________________________________
+  
+										   Dec 27/2021 - By: Trianan
+					   
+		__________________________________________________________________________________________________
+		FUNCTIONS:
+				
+			- Should allow a user to login to their given account using an encrypted password.
+			
+				> Special accounts for Houses will be created with own login credentials.
+				
+				
+			- Once logged in, a user should be able to immediately:
+			
+				> Create a transaction that modifies their stored balance with another account,
+				  and be able to add household expenses that are shared amongst housemates.
+				  These should reflect real transactions and the amounts should be backed up by receipts.
+				  
+				> View/export their account stats and transaction history.
+				
+				> List their accounts housemates, organized by debtors, creditors, and balanced accounts.
+				
+			
+			- Files saving for individual Account names, houses (if housemate), total balances, 
+			  transaction histories, housemates/residents and their balances.
+				
+		__________________________________________________________________________________________________	
+		COMMANDS:
+		
+			c	:	Create transaction. Will prompt if household expense. Generates transaction history log.
+				
+			v	:	View account stats and transaction history; 
+					prompts user whether to export to a timestamped .txt log file or not.
+				
+			l	:	Lists accounts housemates; if account is a House, then lists residents.
+			
+		
+		__________________________________________________________________________________________________
+		PLANNED FEATURES:
+		
+			- Integration with bank account history to automatically enter transaction information.
+			
+			- Transaction history organization and filtering functions for better searching.
+		
+		__________________________________________________________________________________________________
+		
