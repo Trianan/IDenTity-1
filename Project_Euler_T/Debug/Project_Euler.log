@@ -1,0 +1,6 @@
+﻿  Current_problem.cpp
+C:\Users\trist\source\repos\Project_Euler\Project_Euler\Current_problem.cpp(46,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\Project_Euler\Project_Euler\Current_problem.cpp(65,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\Project_Euler\Project_Euler\Current_problem.cpp(76,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\trist\source\repos\Project_Euler\Project_Euler\Current_problem.cpp(84,23): warning C4018: '<': signed/unsigned mismatch
+  Project_Euler.vcxproj -> C:\Users\trist\source\repos\Project_Euler\Debug\Project_Euler.exe
