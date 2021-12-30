@@ -1,0 +1,11 @@
+      ACTIVE PROJECTS FOR IDT1:
+  ________________________________
+  - House-Ledger (Trianan Dec 30/2021)
+  - Project Euler (Trianan Dec 30/2021)
+  
+  
+      POTENTIAL PROJECTS FOR IDT1:
+  ____________________________________
+  - Audio plugins. (DamonGeelen - Dec 30/2021)
+  - An RPG game that runs in terminal. (Trianan - Dec 30/2021)
+  
