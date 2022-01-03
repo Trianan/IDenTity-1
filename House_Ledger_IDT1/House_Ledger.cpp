@@ -29,6 +29,8 @@
 								  therefore refactoring Account to include members for House accounts, and getting rid of the class House is probably
 								  the move. (Dec 30/2021 - Trianan) 
 
+							- hi tristin (Jan 1/2022 - Ash)
+
 							
 
 	<------ -= ======------ -= ======------ -= ======-------> CHANGELOG <------ -= ======------ -= ======------ -= ======------->
@@ -44,6 +46,11 @@
 							- Gutted program almost entirely and restarted with BalanceTable concept and 
 							  different stucture in general. (Dec 31/2021 - Trianan)
 
+							- Gutted program again with different structure. (Jan 1/2021 - Trianan)
+
+							- Fleshed out the Account and BalanceTable classes; decided to use more
+							  bool-returning functions where I'd normally use void, as this will simplify
+							  programming the UI. (Jan 2/2021 - Trianan) 
 */
 
 // < ------ -= ======------ -= ======------> P R E P R O C E S S O R <------ -= ======------ -= ======------->
@@ -65,7 +72,8 @@ using namespace std;
 // <------ -= ======------ -= ======------> D E C L A R A T I O N S <------ -= ======------ -= ======------->
 
 // Classes:
-class Account;
+struct Balance;
+struct Transaction;
 
 // Functions:
 string get_current_date();
@@ -73,113 +81,212 @@ string get_current_date();
 // Objects & Constants:
 hash<string> hash_str;
 
+int account_id_length = 8;
+int ascii_table_length = 127;
+
 
 /* <------ -= ======------ -= ======------> C L A S S E S <------ -= ======------ -= ======------->
 	  * * * * + + + + * * * * + + + + * * * * + + <O> * * + + + + * * * * + + + + * * * * + + + + 
 	  
-   <------ -= ======------ -= ======------> BALANCE TABLE < ------ -= ======------ -= ======-------> */
-class BalanceTable { // Represents current balances with all associated accounts; does not belong to any one account. (Dec 31/2021 - Trianan)
+// <------ -= ======------ -= ======------> ACCOUNT < ------ -= ======------ -= ======-------> */
+class Account {
+	// Represents an individual.
 public:
-	BalanceTable(vector<Account>& accounts);
-	void modify_balance(Account& account_owner, Account& balance_holder, double amount);
-	void distribute(double amount, vector<Account>& accounts);
-	void print(ostream& os = cout);
-private:
-	vector<Account&> account_owners;
+	Account(string nm, string pswd);
+	bool operator == (Account& other); // Checks accounts IDs.
 
-
-	
-};
-BalanceTable::BalanceTable(vector<Account>& accounts)
-	: balance_holders(accounts) {};
-
-void BalanceTable::modify_balance(Account& account_owner, Account& balance_holder, double amount) {
-	for (Account& acc : account_owners)
-		if (account_owner == acc) { // Checks if account_owner is on the table...
-			for (int i = 0; i < account_owner.holder_count(); ++i) { //...then checks the owner's balance holders.
-				if (account_owner.get_holder(i) == balance_holder) {
-					account_owner.balance_amounts[i] += amount; // Modifies the balance of matching balance owner.
-				}
-			}
-		}
-	return;
-}
-void BalanceTable::distribute(double amount, vector<Account>& accounts) {
-
-	return;
-}
-
-// <------ -= ======------ -= ======------> ACCOUNT <------ -= ======------ -= ======------->
-class Account { // Represents the financial status of a single person. (Dec 31/2021 - Trianan)
-public:
-	Account(string nm, string pswd, BalanceTable& bt);
-	bool operator==(Account& account);
-
-	void create_transaction(double amount, Account& account_to);
-
-	string get_name() { return name; }
-	double get_holder_balance(Account& holder);
-	int holder_count() { return balance_holders.size(); }
-	Account& get_holder(int i) { return balance_holders[i]; }
-
-
-	vector<double> balance_amounts; // Balance for each holder. (Dec 31/2021 - Trianan)
+	string name_str() { return name; }
+	string get_id() { return account_id; }
+	void change_name(string new_nm) { name = new_nm; }
+	bool change_password(string old_pswd, string new_pswd);
+	bool is_password(string pswd) {
+		if (hash_str(pswd) == password) return true;
+		else return false;
+	}
+	double net_balance();
+	bool existing_holder(Account& holder);
+	bool add_balance_holder(Account& holder);
+	bool change_balance(Account& holder, double amount);
+	void record_transaction(Transaction t) { transaction_history.push_back(t); }
 
 private:
-	string name; // Name of account. (Dec 31/2021 - Trianan)
-	string password; // Password for login. (Dec 31/2021 - Trianan)
+	string name; // Name of owner.
+	size_t password; // Owner's login purposes.
+	string account_id = ""; // IDs accounts while allowing for name changes.
 
-	double total_balance = 0; // Sum of all balances. (Dec 31/2021 - Trianan)
-	vector<Account&> balance_holders; //  Each account on BalanceTable is a holder except this account.
-	BalanceTable& balances;
-	vector<Transaction> transaction_history; // This account's transaction history; populated in chronological order. (Dec 31/2021 - Trianan)
+	vector<Balance> balances; // Contains info on debts/credits towards other accounts.
+	vector<Transaction> transaction_history;
+
 };
-Account::Account(string nm, string pswd, BalanceTable& bt)
-	: name(nm), password(pswd), balances(bt) {};
-bool Account::operator==(Account& account) {
-	if (name == account.get_name())
+Account::Account(string nm, string pswd)
+	: name(nm) {
+	// Stores hash of password:
+	password = hash_str(pswd);
+	// Generates a random account ID upon initialization:
+	srand(time(NULL));
+	for (int i = 0; i < account_id_length; ++i) {
+		char c = rand() % ascii_table_length + 1;
+		account_id += c;
+	}
+}
+bool Account::operator== (Account& other) {
+	if (account_id == other.account_id)
 		return true;
-	else 
+	else return false;
+}
+
+bool Account::change_password(string old_pswd, string new_pswd) {
+	// Changes the password if the old password given is correct:
+	if (is_password(old_pswd)) {
+		password = hash_str(new_pswd);
+		return true;
+	}
+	else
 		return false;
 }
-
-void Account::create_transaction(double amount, Account& account_to) {
-
+double Account::net_balance() {
+	// Returns the net balance of an individual account (negative is debt).
+	double net = 0.0;
+	for (Balance balance : balances)
+		net += balance.amount;
+	return net;
 }
-double Account::get_holder_balance(Account& holder) {
-	for (int i = 0; i < balance_holders.size(); ++i) {
-		if (holder == balance_holders[i]) {
-			return balance_amounts[i];
-		}
-		else return 0.0;
+bool Account::existing_holder(Account& holder) {
+	for (Balance balance : balances)
+		if (balance.holder == holder)
+			return true;
+	return false;
+}
+bool Account::add_balance_holder(Account& holder) {
+	if (!existing_holder(holder)) {
+		Balance new_balance{ holder, 0.0 };
+		balances.push_back(new_balance);
+		return true;
+	}
+	return false;
+}
+bool Account::change_balance(Account& holder, double amount) {
+	if (existing_holder) {
+		for (Balance existing : balances)
+			if (existing.holder == holder) {
+				existing.amount += amount;
+				return true;
+			}
+		return false;
 	}
 }
 
 
-//  <------ -= ======------ -= ======------> TRANSACTION <------ -= ======------ -= ======-------> 
-struct Transaction { // Represents a single transaction between two accounts; includes a timestamp. (Dec 28/2021 - Trianan)
-	Transaction(double n, Account pr, Account pe); // For transactions between two individuals. (Dec 31/2021 - Trianan)
-	Transaction(double n, Account buyer, vector<Account>&accounts); // For shared expenses/transactions. (Dec 31/2021 - Trianan)
-
-	double amount = 0.0;
-	string date = "yyyy/mm/dd";
-	Account payer;
-	Account payee;
-	// These two are for shared expenses only:			(Dec 31/2021 - Trianan)
-	bool is_shared = false;
-	vector<Account> accounts;
+// <------ -= ======------ -= ======------> TRANSACTION < ------ -= ======------ -= ======------->
+struct Transaction {
+	Transaction(Account& a, Account& b, double amnt, bool shrd=false);
+	Account& from;
+	Account& to;
+	double amount;
+	string date;
+	bool shared;
 };
-Transaction::Transaction(double n, Account pr, Account pe)
-	: amount(n), payer(pr), payee(pe), date(get_current_date()) {};
-Transaction::Transaction(double n, Account buyer, vector<Account>&accs)
-	: amount(n), payer(buyer), accounts(accs), is_shared(true) {};
+Transaction::Transaction(Account& a, Account& b, double amnt, bool shrd)
+	: from(a), to(b), amount(amnt), shared(shrd) {
+	date = get_current_date();
+}
 
 
+// <------ -= ======------ -= ======------> BALANCE < ------ -= ======------ -= ======------->
+struct Balance {
+	// Represents the balance held by another account.
+	Balance(Account& hldr, double amnt = 0.0);
+	Account& holder; // Person is owes/is owed an amount.
+	double amount;
+
+};
+Balance::Balance(Account& hldr, double amnt)
+	: holder(hldr), amount(amount) {};
 
 
+// <------ -= ======------ -= ======------> BALANCE TABLE < ------ -= ======------ -= ======------->
+class BalanceTable {
+	// Represents the balances between all participents.
+public:
+	BalanceTable(string filename);
+	BalanceTable(string filename, vector<Account&> starting_accounts);
+	bool existing_account(Account& account);
+	bool add_account(Account& account);
+	bool modify_balance_entry(Account& account, Account& holder, double amount);
+	bool create_transaction(Account& from, Account& to, double amount, bool shared=false);
+	bool dist_cost(Account& buyer, double amount, vector<Account&> omissions = vector<Account&>{});
 
+private:
+	string savefile; // File used to save and pull data from.
+	vector<Account&> accounts; // References to each associated account.
 
+};
+BalanceTable::BalanceTable(string filename)
+	:savefile(filename) {};
+BalanceTable::BalanceTable(string filename, vector<Account&> starting_accounts)
+	:savefile(filename), accounts(starting_accounts) {};
 
+bool BalanceTable::existing_account(Account& account) {
+	// Checks if an account is on the table already.
+	for (Account& existing : accounts)
+		if (existing.get_id() == account.get_id())
+			return true;
+	return false;
+}
+bool BalanceTable::add_account(Account& account) {
+	// Adds an account to the table, and adds to the account a balance 
+	// for each account on the table.
+	if (!existing_account(account)) {
+		for (Account& existing : accounts)
+			account.add_balance_holder(existing);
+		accounts.push_back(account);
+		return true;
+	}
+	return false;;
+}
+bool BalanceTable::modify_balance_entry(Account& account, Account& holder, double amount) {
+	// Modifies an existing account's balance with another account.
+	if (existing_account(account))
+		if (account.existing_holder(holder)) {
+			account.change_balance(holder, amount);
+			return true;
+		}
+	return false;
+}
+bool BalanceTable::create_transaction(Account& from, Account& to, double amount, bool shared) {
+	// 
+	if (existing_account(from) && existing_account(to)) {
+		Transaction t{ from, to, amount, shared };
+		// From account a to b:
+		modify_balance_entry(from, to, t.amount);
+		from.record_transaction(t);
+		// From account b to a:
+		t.amount *= -1;
+		modify_balance_entry(to, from, t.amount);
+		to.record_transaction(t);
+		return true;
+	}
+	return false;
+}
+bool BalanceTable::dist_cost(Account& buyer, double amount, vector<Account&> omissions) {
+	// Divides amount evenly amongst participating accounts:
+	double individual_cost = amount / (accounts.size() - omissions.size());
+	omissions.push_back(buyer); // Buyer already paid
+	if (existing_account(buyer)) {
+		for (Account& account : accounts) {
+
+			bool included = true;
+			for (Account& omitted_account : omissions)
+				if (omitted_account == account) included = false;
+
+			if (included) {
+				create_transaction(account, buyer, amount * -1, true);
+			}
+		}
+		return true;
+	}
+	return false;
+}
 
 
 /* <------ -= ======------ -= ======------> F U N C T I O N S < ------ -= ======------ -= ======------->
