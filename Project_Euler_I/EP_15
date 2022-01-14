@@ -1,0 +1,2 @@
+Solved using combinatorial equation:
+((2n)!) / ((n!)^2) where n = x in an x * x grid
