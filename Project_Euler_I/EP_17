@@ -1,0 +1,17 @@
+solved using paper
+determined number of occurences of each unique root word
+multiplied occurences by number of letters in each root word
+summed the resulting products to get final result
+
+ex: one is a root word that shows up 191 times from 1 - 1000
+    twelve is a root word that shows up 10 times from 1 - 1000
+below is a list of all root words of the numbers 1 - 1000:
+
+one, two, three, four, five, six, seven, eight, nine, 
+ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen,
+twenty, thirty, fourty, fifty, sixty, seventy, eighty, ninety,
+hundred,
+"and", 
+thousand
+
+this can be simplified further by splitting nunmbers like sixteen into "six" and "teen" but this is not necessary
