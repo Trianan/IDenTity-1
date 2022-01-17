@@ -8,7 +8,11 @@
 
 	< ------ -= ======------ -= ======------ -= ======------ -= ======-------> N O T E S <------ -= ======------ -= ======------ -= ======------ -= ======------->
 
-            - BigNum implementation might come in handy for this one (Dec 18/2021).
+            - BigNum implementation might come in handy for this one (Dec 18/2021 - Trianan).
+
+                - Nah. (Jan 16/2022 - Trianan)
+
+            - Implemented reading the addends from a text file into a 2D int vector, with optional console printing. (Jan 16/2022 - Trianan)
 
 	*/
 
@@ -22,97 +26,61 @@
 using namespace std;
 
 
-//  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
+vector<vector<int>> populate_digit_matrix(string filename, bool print=false) {
+    vector<vector<int>> digit_matrix(1); // Dynamically allocated 2D array.
+    ifstream digit_file{ filename };
 
-void read_addends(vector<vector<int>>& addends, string addends_filename) {
-    // Reads large integer addends from text file, into vector of integer-vectors, each of 
-    // which represent an individual addend.
-
-    // Choosing file input.
-    ifstream addends_stream{ addends_filename };
-    while (!(addends_stream)) {
-        addends_stream.close();
-        cout << "File not found, please enter a new filename: ";
-        cin >> addends_filename;
-        addends_stream.open(addends_filename);
+    int i = 0;
+    while (digit_file) {
+        char c = digit_file.get();
+        if (isdigit(c)) {
+            int d = c - 48; // Char value minus ASCII offset to get int.
+            digit_matrix[i].push_back(d);
+        }
+        if (iswspace(c)) {
+            ++i; // Next row/number.
+            vector<int> next_n;
+            digit_matrix.push_back(next_n);
+        }
     }
-    cout << addends_filename << " opened.\n";
+    if (print) {
+        for (int i = 0; i<digit_matrix.size(); ++i) {
+            vector<int> number = digit_matrix[i];
 
-    string addend_str;
-    getline(addends_stream, addend_str);
-    while (addends_stream) {
-        cout << "\tAddend string: " << addend_str << " Digits: ";
-        vector<int> addend;
-        for (int i = 0; i < addend_str.size(); ++i) {
-            char d = addend_str[i]; cout << d;
-            if (isdigit(d)) {
-                int dd = d - '0'; // Character '0' has the ASCII code of 48, and they're consecutively numbered.
-                addend.push_back(dd);
+            cout << "\n\t";
+            for (int digit : number) {
+                cout << digit;
+            }
+            if (i != digit_matrix.size() - 1) cout << " +";
+            else {
+                cout << "\n=   \t";
+                for (int i = 0; i < digit_matrix[0].size(); ++i)
+                    cout << "-";
+                cout << '\n';
             }
         }
-        cout << '\n';
-        addends.push_back(addend);
-        getline(addends_stream, addend_str);
     }
-
-    cout << addends_filename << " read successfully.\n\n";
+    return digit_matrix;
 }
 
-// These may be wrapped in a BigNum add() function eventually:
-int add_column(vector<vector<int>>& addends, int column_index, int carry = 0) {
-    // Adds a column of digits from a vector of addends, including optional carry from previous row.
+struct column_sum {
     int sum = 0;
-    for (int i = 0; i < addends.size(); ++i)
-        sum += addends[i][column_index];
-    return sum + carry;
+    int carry = 0;
+};
+
+column_sum add_column(){
+    column_sum result;
+    return result;
 }
-
-string add_BigNums(vector<vector<int>> addends) {
-
-    string sum_str;
-
-    vector<int> carry_row(addends[0].size(), 0);
-
-    for (int i = 0; i < addends[0].size(); ++i) {
-        int last_index = addends[0].size() - 1;
-
-        int column_sum = add_column(addends, last_index - i); // Rightmost to left.
-        while (column_sum >= 100) {
-            column_sum -= 100;
-            if (last_index - i >= 2)
-                carry_row[last_index - i - 2] += 1;
-            else {
-                carry_row.insert(carry_row.begin(), 1); // Insert 1 at beginning of number, which can be added to.
-                last_index += 1;
-            }
-        }
-        while (column_sum >= 10) {
-            column_sum -= 10;
-            if (last_index - i >= 1)
-                carry_row[last_index - i - 1] += 1;
-            else {
-                carry_row.insert(carry_row.begin(), 1); // Insert 1 at beginning of number, which can be added to.
-                last_index += 1;             }
-
-        }
-    }
-
-    return sum_str;
-}
-
-
-
-
-
-
 
 
 //  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
+
+
+
 int main() {
 
-    vector<vector<int>> addends;
-    read_addends(addends, "problem_13_numbers.txt");
-    cout <<"Sum of column 0: "<< add_column(addends, 0) << '\n';
-    cout <<"\n\n\n"<< add_BigNums(addends)<<'\n';
+    vector<vector<int>> digimatrx = populate_digit_matrix("problem_13_numbers.txt", true);
+
     return 0;
-}
+} 
