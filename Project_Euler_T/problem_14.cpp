@@ -1,7 +1,7 @@
 
 /*  <------ -= ======------ -= ======------ -= ======------ -= ======>  P R O J E C T  E U L E R  <=======------ -= ======------ -= ======------ -= ======------->
 
-	PROBLEM #14: "Jeff Bezos' Daily Income" - Trianan - Dec 18/2021
+	PROBLEM #14: "Hailstone Numbers" - Trianan - Jan 23/2022
     
            "The following iterative sequence is defined for the set of positive integers:
 
