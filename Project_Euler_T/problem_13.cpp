@@ -1,7 +1,7 @@
 
 /*  <------ -= ======------ -= ======------ -= ======------ -= ======>  P R O J E C T  E U L E R  <=======------ -= ======------ -= ======------ -= ======------->
 
-	PROBLEM #13: "Jeff Bezos' Daily Income" - Trianan - Dec 18/2021
+	PROBLEM #13: "Jeff Bezos' Daily Income" - Trianan - Jan 23/2022
     
            "Work out the first ten digits of the sum of the following one-hundred 50-digit numbers
             (See problem_13_numbers.txt)."
