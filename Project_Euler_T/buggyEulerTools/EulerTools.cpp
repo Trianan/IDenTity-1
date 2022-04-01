@@ -1,18 +1,28 @@
-/*  <------ -= ======------ -= ======------ -= ======------ -= ======>  E U L E R   T O O L S  <=======------ -= ======------ -= ======------ -= ======------->
-    Trianan - APR 1/2022
 
-    - A library composed of tools I've built to solve Project Euler problems.
+/*  <------ -= ======------ -= ======------ -= ======------ -= ======>  E U L E R  T O O L S  <=======------ -= ======------ -= ======------ -= ======------->
 
-        - Functions for adding digit strings of any reasonable size.
+		EULERTOOLS: A set of tools developed for Project Euler problems.
 
-    < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
-*/  
+			- class BigNum: a type developed for integers outside the range of standard integer types.
 
-#include "EulerTools.h"
+	< ------ -= ======------ -= ======------ -= ======------ -= ======-------> N O T E S <------ -= ======------ -= ======------ -= ======------ -= ======------->
+
+			- Initial version of BigNum created (Dec 17/2021).
+			- BigNum initializer further developed, with intention of creating representation as a stream.
+			  Also worked on add() function for BigNum (Dec 18/2021).
+
+              THIS NEEDS TO BE FIXED -LNK2005 ERROR W EulerTools.h that I cant be fucked to figure out rn.
+	*/
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <vector>
+
 
 using namespace std;
-
-//  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
 
 namespace EulerTools {
 
@@ -22,7 +32,7 @@ namespace EulerTools {
         int carry = 0;
     };
 
-    ColumnSum sum_column(int column_i, const vector<string>& addends, int previous_carry) {
+    ColumnSum sum_column(int column_i, const vector<string>& addends, int previous_carry = 0) {
         // Adds digits in a 2D int vector's given column; reduces it into a single digit and calculates the
         // carry for the next row.
         ColumnSum column_result;
@@ -74,4 +84,3 @@ namespace EulerTools {
     }
 };
 
-//  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
