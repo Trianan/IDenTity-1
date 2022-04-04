@@ -1,4 +1,4 @@
-/*  <------ -= ======------ -= ======------ -= ======------ -= ======>  P R O J E C T  E U L E R  <=======------ -= ======------ -= ======------ -= ======------->
+﻿/*  <------ -= ======------ -= ======------ -= ======------ -= ======>  P R O J E C T  E U L E R  <=======------ -= ======------ -= ======------ -= ======------->
 
 	PROBLEM #18: "Pyramid Treasure Tunnel" - Trianan - Apr 1/2022
 
@@ -13,106 +13,226 @@
 
 			Find the maximum total from top to bottom of the triangle below:
 
-			              75
-			             95 64
-			            17 47 82
-			           18 35 87 10
-			          20 04 82 47 65
-			         19 01 23 75 03 34
-			        88 02 77 73 07 63 67
-			       99 65 04 28 06 16 70 92
-			      41 41 26 56 83 40 80 70 33
-			     41 48 72 33 47 32 37 16 94 29
-			    53 71 44 65 25 43 91 52 97 51 14
+						  75
+						 95 64
+						17 47 82
+					   18 35 87 10
+					  20 04 82 47 65
+					 19 01 23 75 03 34
+					88 02 77 73 07 63 67
+				   99 65 04 28 06 16 70 92
+				  41 41 26 56 83 40 80 70 33
+				 41 48 72 33 47 32 37 16 94 29
+				53 71 44 65 25 43 91 52 97 51 14
 			   70 11 33 28 77 73 17 78 39 68 17 57
 			  91 71 52 38 17 14 91 43 58 50 27 29 48
 			 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 			04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
 
-			NOTE: As there are only 16384 routes, it is possible to solve this problem by trying every route. 
-			However, Problem 67, is the same challenge with a triangle containing one-hundred rows; 
+			NOTE: As there are only 16384 routes, it is possible to solve this problem by trying every route.
+			However, Problem 67, is the same challenge with a triangle containing one-hundred rows;
 			it cannot be solved by brute force, and requires a clever method! ;o)"
 
-    < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======-------> */
+	< ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======-------> */
 
 #include "EulerTools.h"
 
 using namespace std;
 
-
-
 //  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
 
-using Vec2D = vector<vector<int>>;
+struct Node {
+	Node() {};
+	Node(int v) { value = v; };
+	Node(int v, int r, int i);
+	const bool operator==(Node& b);
+	const bool operator!=(Node& b);
 
-Vec2D generate_numtri(string numtri_filename, bool console_output=false) {
-	// Generates a triangular matrix with numbers from a text file of numbers.
-	ifstream numtri_ifs{ numtri_filename };
+	void print();
 
-	vector<vector<int>> numtri;
-	int current_n = 0;
-	int current_row = 1;
+	int value = 0;
+	int row = 0;
+	int index = 0;
 
-	while (numtri_ifs) {
-		vector<int>row;
-		for (int i = 0; i < current_row; ++i) {
-			if (numtri_ifs >> current_n)
-				row.push_back(current_n);
+	int t_value = 0;
+	int t_row = 0;
+	int t_index = 0;
+
+	bool unvisited = true;
+};
+Node::Node(int v, int r, int i) : value(v), row(r), index(i) {}
+const bool Node::operator==(Node& b) {
+	// Compares two nodes through their position.
+	if (row == b.row && index == b.index)
+		return true;
+	else return false;
+}
+const bool Node::operator!=(Node& b) {
+	return !(operator==(b));
+}
+void Node::print() {
+	cout << "Node: (" << row << '.' << index << ")   Value: " << value
+		<< "\nT-Node: (" << t_row << ',' << t_index << ")   T-Value: " << t_value
+		<< "\nUnvisited: " << unvisited << "\n\n";
+	return;
+}
+
+using Network = vector<vector<Node>>;
+
+void print_network(Network& network, bool verbose = false, vector<Node*> marks = {}) {
+	for (vector<Node>& row : network) {
+		for (Node& n : row) {
+			cout <<"[ "<< n.value << ", (" << n.row << ',' << n.index;
+			if (verbose) {
+				cout << " | " << n.t_value << ')';
+				for(Node* mark : marks)
+					if (n == *mark)
+						cout << '$';
+			}
+			cout << " ]\t";
 		}
-		numtri.push_back(row);
+		cout << "\n\n";
+	}
+}
+
+Network generate_triangle(string& numtri_filename, bool console_output = false) {
+	// Generates a triangular matrix with numbers from a text file of numbers.
+	ifstream file_input{ numtri_filename };
+	Network number_triangle;
+
+	int value = 0;
+	int current_row = 1;
+	while (file_input) {
+
+		vector<Node>row;
+		for (int i = 0; i < current_row; ++i)
+			if (file_input >> value)
+				row.push_back(Node{value, current_row-1, i});
+
+		number_triangle.push_back(row);
 		++current_row;
 	}
+	number_triangle.pop_back();
 
 	// Optional console output for debugging.
 	if (console_output) {
-		for (vector<int> row : numtri) {
-			for (int n : row)
-				cout << n << " ";
-			cout << '\n';
-		}
+		print_network(number_triangle);
 	}
 
-	return numtri;
+	return number_triangle;
 }
 
-class Node {
-	// Class representing a node on a given 2D-graph.
-public:
-	Node(int r, int e, Vec2D f);
-	bool is_valid();
-	bool visited = false; 
+vector<Node*> get_neighbors(const Node& node, Network& network) {
+	// This gets the next available nodes according to the rules of Problem #18 specifically.
+	vector<Node*> neighbors{};
+	if (node.row < network.size()-1) {
+		int r = node.row;
+		int i = node.index;
 
-private:
-	int nth_row;
-	int nth_element;
-	Vec2D field;
-};
-Node::Node(int r, int e, Vec2D f) : nth_row(r), nth_element(e), field(f) {}
-bool Node::is_valid() {
-	// Checks if the position exists on the given field.
-	bool validity = true;
-	if (nth_row < 0 || field.size() < nth_row)
-		validity = false;
-
-	else if (nth_element < 0 || field[nth_row].size() < nth_element)
-		validity = false;
-	return validity;
+		Node* n1 = &network[r + 1][i];
+		Node* n2 = &network[r + 1][i + 1];
+		neighbors.push_back(n1);
+		neighbors.push_back(n2);
+	}
+	return neighbors;
 }
 
+Node* next_node(Network& network, bool ignore_visited=true) {
+	// Returns a pointer to the next unvisited node in the network according to highest t-value.
+	Node empty_node;
+	Node* greatest_node_ptr = &empty_node; // Initializes node pointer to address an empty node with zero for every value.
 
-void initialize_tentative_values(Vec2D)
+	for (int r = 0; r < network.size(); ++r) // Search through all nodes; may optimize with 
+		for (int i = 0; i < network[r].size(); ++i)
+			if (network[r][i].t_value > (*greatest_node_ptr).t_value && (network[r][i].unvisited || !ignore_visited))
+				greatest_node_ptr = &network[r][i]; // Sets node pointer to node with greatest t_value so far.
 
+	return greatest_node_ptr;
+}
 
+vector<Node*> find_path(Node& start_node, Network& network) {
+	start_node.t_value = start_node.value; // Initializes the start_node.
+	start_node.t_row = start_node.row; // The starting node is always initializes with the values of itself.
+	start_node.t_index = start_node.index;
+	Node* current_node = &start_node; // Current_node is a pointer to each actual node in the network, not a copy.
 
+	vector<Node*> unvisited_set;
 
+	bool complete = false;
+	vector<Node*> mark_current{ current_node };
+	while (!complete) {
+		cout << "CURRENT NODE: \n";
+		(*current_node).print();
 
+		cout << "\tNEIGHBORS: \n";
+		for (Node* neighbor : get_neighbors(*current_node, network)) {
+			int calculated_t_value = (*current_node).t_value + (*neighbor).value; // Highest path to current node + distance to neighbor = neighbor's t-value through current node.
+			cout <<"\tPrev t_value: "<<(*neighbor).t_value<<"\tCalculated t_value: "<< calculated_t_value << '\n';
+			if (calculated_t_value > (*neighbor).t_value) {
+				(*neighbor).t_value = calculated_t_value;
+				(*neighbor).t_row = (*current_node).row; // These two are for tracking the path which the TD was obtained.
+				(*neighbor).t_index = (*current_node).index;
+			}
+			(*neighbor).print();
+		}
+		(*current_node).unvisited = false;
 
+		bool complete = true; // Continues until all nodes are visited.
+		for (vector<Node>& row : network)
+			for (const Node& node : row) {
+				cout << (node).t_value << " " << node.unvisited << " | ";
+				if (node.unvisited) complete = false;
+			}
+		cout << "\n";
 
+		print_network(network, true, mark_current);
+
+		if (complete) { // Traces out and returns a pointer vector of nodes forming the final path.
+			current_node = next_node(network, false); // Sets current_node to highest t_value node.
+			vector<Node*> path;
+			while (true) {
+				path.push_back(current_node); // Trace back through nodes access by their location, and pushing each current node to the path-list.
+				current_node = &(network[(*current_node).t_row][(*current_node).t_index]);
+				if (*current_node == start_node) { // Done; push back the last node and return the finished list.
+					path.push_back(current_node);
+					return path;
+				}
+			}
+		}
+		else
+			current_node = next_node(network);
+		cout << "\tNEXT: ("<<(*current_node).row<<','<<(*current_node).index<<") ...\n";
+		system("cls");
+	}
+}
 
 //  < ------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------ -= ======------->
 
 int main() {
-	vector<vector<int>> number_triangle = generate_numtri("problem_18_triangle.txt", true);
+	string filename = "problem_18_triangle.txt";
+	Network numtri = generate_triangle(filename, true);
+
+	vector<Node*> path = find_path(numtri[0][0], numtri);
+
+	int nth_step = 1;
+	for (Node* step_ptr : path) {
+		cout << "\tSTEP #" << nth_step << "\n\n";
+		(*step_ptr).print();
+		cout << "\n";
+		++nth_step;
+	}
+
+	print_network(numtri, true, path);
+
+
+
+
+
+
+
+
+
+
 
 	return 0;
 }
